@@ -46,6 +46,14 @@ $stdin.each_line do |line|
     next
   end
 
+  # take care to have a change message sent out
+  if File.executable?("#{SOURCE_REPOSITORY}/hooks/post-receive-email")
+    IO.popen("#{SOURCE_REPOSITORY}/hooks/post-receive-email", mode='r+') do |io|
+      io.write line
+      io.close_write
+    end
+  end
+
   if BRANCH_MAP[branchname] != nil
     environment_name = BRANCH_MAP[branchname]
     environment_path = "#{ENVIRONMENT_BASEDIR}/#{BRANCH_MAP[branchname]}"
