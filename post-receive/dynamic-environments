@@ -41,7 +41,7 @@ $stdin.each_line do |line|
 
   # Check if the branch name is valid.
   branchname = refname.sub(%r{^refs/heads/(.*$)}) { $1 }
-  unless system("git check-ref-format --branch '#{branchname}' >& /dev/null")
+  unless system("git check-ref-format --branch '#{branchname}' > /dev/null 2>&1")
     puts %Q{Branchname "#{branchname}" is not valid.} 
     next
   end
